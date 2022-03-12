@@ -1,3 +1,5 @@
+import numpy as np
+
 def flatten(ls):
     flat = []
     for r in ls:
