@@ -1,5 +1,4 @@
 import numpy as np
-from math import exp
 
 def complex2polar(z):
     return { 'r': abs(z) , 'angle': np.angle(z)} 
@@ -19,4 +18,6 @@ def extractAmplitudeAndPhase(imgFT):
     return amplitude, phase
 
 def toComplex(amp):
-    return [[complex(amp[i][j]) for j in range(len(amp[0]))] for i in range(len(amp))]
+    h = len(amp)
+    w = len(amp[0])
+    return [[complex(amp[i][j]) for j in range(w)] for i in range(h)]

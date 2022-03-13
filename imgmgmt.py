@@ -1,4 +1,5 @@
 import numpy as np
+from polarform import complex2polar
 
 def flatten(ls):
     flat = []
@@ -23,4 +24,20 @@ def padding(img, pad):
     img.extend(paddingzero)
 
 def inverse(img):
-    return [[255 - pixel for pixel in row] for row in img] 
+    return [[255 - pixel for pixel in row] for row in img]
+
+def shift(fourier, x, y):
+    w = len(fourier[0])
+    h = len(fourier)
+    return [[fourier[i][j] * np.exp(-2j*np.pi*((x*j/w)+(y*i/h))) for j in range(w)] for i in range(h)]
+
+def rotate(fourier, deg):
+    rad = np.deg2rad(deg)
+    return [[pixel['r'] * np.exp(1j*(rad+pixel['angle'])) for pixel in row] for row in fourier]
+
+def toPolarform(z):
+    return [[complex2polar(pixel) for pixel in row] for row in z]
+
+def downScale(img, w, h):
+    ratio = [len(img[0])/w, len(img)/h]
+    return [[img[int(i*ratio[0])][int(j*ratio[1])] for j in range(w)] for i in range(h)]
