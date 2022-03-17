@@ -2,7 +2,7 @@ import numpy as np
 from polarform import toComplex
 
 def fft(img):
-    return np.fft.fftshift(np.fft.fft2(img, axes=(0,1)))
+    return np.fft.fftshift(np.fft.fft2(img))
 
 def ifft(transform):
     return np.fft.ifft2(np.fft.ifftshift(transform), axes=(0,1))

@@ -1,12 +1,12 @@
 import numpy as np
 
 def complex2polar(z):
-    return { 'r': abs(z) , 'angle': np.angle(z)} 
+    return { 'r': np.abs(z) , 'angle': np.angle(z)} 
 
-def extractAmplitudeAndPhase(imgFT):
+def extractAmplitudeAndPhase(fourier):
     amplitude = []
     phase = []
-    for row in imgFT:
+    for row in fourier:
         a_row = []
         p_row = []
         for pixel in row:

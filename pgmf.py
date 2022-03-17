@@ -1,3 +1,6 @@
+from pointop import normalizeLog, contrastStretching
+from imgmgmt import flatten
+
 def readPGM(file):
     _ = file.readline()
     wh = file.readline()
@@ -20,3 +23,13 @@ def writePGM(file, w, h, depth, flatImg):
     file.write('{}\n'.format(depth).encode())
     file.write(bytearray(flatImg))
     file.close()
+
+def saveNormImg(name, img, depth):
+    w, h, norm = normalizeLog(img)
+    file = open(name, 'wb')
+    writePGM(file, w, h, depth, flatten(norm))
+
+def saveContrastImg(name, img, depth):
+    w, h, contrast = contrastStretching(img)
+    file = open(name, 'wb')
+    writePGM(file, w, h, depth, flatten(contrast))

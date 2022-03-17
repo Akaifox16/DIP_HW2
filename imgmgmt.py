@@ -1,5 +1,5 @@
 import numpy as np
-from polarform import complex2polar
+from polarform import complex2polar, extractAmplitudeAndPhase
 
 def flatten(ls):
     flat = []
@@ -31,9 +31,22 @@ def shift(fourier, x, y):
     h = len(fourier)
     return [[fourier[i][j] * np.exp(-2j*np.pi*((x*j/w)+(y*i/h))) for j in range(w)] for i in range(h)]
 
-def rotate(fourier, deg):
+def rotate(fourier, deg, backgroud=0):
     rad = np.deg2rad(deg)
-    return [[pixel['r'] * np.exp(1j*(rad+pixel['angle'])) for pixel in row] for row in fourier]
+    n = len(fourier)
+
+    rotated_img = np.array([[backgroud]*n for _ in range(n)])
+    rot = np.array([[np.cos(rad), -np.sin(rad)],
+                    [np.sin(rad), np.cos(rad)]])
+
+    for i, row in enumerate(fourier):
+        for j, _ in enumerate(row):
+            a = np.array([i-(n/2), j-(n/2)])
+            y, x = (a*rot).sum(axis=1) + (n/2)
+            
+            if 0 <= y <= 255 and 0 <= x <= 255:
+                rotated_img[i][j] = fourier[int(y)][int(x)]
+    return rotated_img
 
 def toPolarform(z):
     return [[complex2polar(pixel) for pixel in row] for row in z]
