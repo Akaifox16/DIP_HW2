@@ -17,6 +17,10 @@ def readPGM(file):
     file.close()
     return depth, image
 
+def openImg(name):
+    file = open(name, 'rb')
+    return readPGM(file)
+
 def writePGM(file, w, h, depth, flatImg):
     file.write('P5\n'.encode())
     file.write('{} {}\n'.format(w, h).encode())
@@ -24,12 +28,14 @@ def writePGM(file, w, h, depth, flatImg):
     file.write(bytearray(flatImg))
     file.close()
 
+def saveImg(name, img, depth, w, h):
+    file = open(name, 'wb')
+    writePGM(file, w, h, depth, flatten(img))
+
 def saveNormImg(name, img, depth):
     w, h, norm = normalizeLog(img)
-    file = open(name, 'wb')
-    writePGM(file, w, h, depth, flatten(norm))
+    saveImg(name, norm, depth, w, h)
 
 def saveContrastImg(name, img, depth):
     w, h, contrast = contrastStretching(img)
-    file = open(name, 'wb')
-    writePGM(file, w, h, depth, flatten(contrast))
+    saveImg(name, contrast, depth, w, h)

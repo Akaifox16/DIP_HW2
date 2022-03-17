@@ -43,7 +43,6 @@ def rotate(fourier, deg, backgroud=0):
         for j, _ in enumerate(row):
             a = np.array([i-(n/2), j-(n/2)])
             y, x = (a*rot).sum(axis=1) + (n/2)
-            
             if 0 <= y <= 255 and 0 <= x <= 255:
                 rotated_img[i][j] = fourier[int(y)][int(x)]
     return rotated_img
